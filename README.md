@@ -1,178 +1,281 @@
-# Marathi Noun Morphology FST
+# 🚀 Marathi Morphological FST Engine
 
-## Project Overview
-This project models Marathi morphological case handling for a single part of speech: **NOUN**. It implements a simple **Finite State Transducer (FST)** style analyzer and generator using an **add/delete table** approach inspired by standard NLP laboratory demonstrations.
+### *Finite State Transducer for Marathi Case Morphology*
 
-The system can:
-- generate surface forms from noun lemmas and grammatical cases,
-- analyze surface forms back into lemma + case,
-- display a case study for Marathi noun morphology,
-- display the add/delete table used by the transducer.
+![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
+![NLP](https://img.shields.io/badge/Domain-NLP-green.svg)
+![Status](https://img.shields.io/badge/Status-Complete-success.svg)
+![License](https://img.shields.io/badge/License-Academic-orange.svg)
 
-## Abstract
-This project presents a compact finite state transducer model for Marathi morphology. It now covers multiple POS tags, with **NOUN** as the main focus and additional support for **PRONOUN** and **ADJECTIVE** entries. The system demonstrates how Marathi case inflection can be modeled using an explicit add/delete table, a small lexicon, and deterministic generation and analysis rules. The system is designed as a submission-ready NLP lab exercise rather than a full-scale morphological analyzer.
+---
 
-## Scope
-This submission focuses on case-based Marathi morphology with a compact multi-POS design. It does not attempt to solve full Marathi morphology or all possible POS tags. The design is intentionally compact and pedagogical so it is easy to present in a lab or assignment.
+## 📌 Project Overview
 
-## Supported POS Tags
-- NOUN
-- PRONOUN
-- ADJECTIVE
+This project implements a **Finite State Transducer (FST)** to model **Marathi morphological case inflection** for multiple POS tags, with a primary focus on **NOUN morphology**.
 
-## Marathi Noun Cases Used
-The following cases are included in the model:
+It demonstrates how **rule-based NLP systems** can effectively handle **morphologically rich Indian languages** using a structured **add/delete table approach**.
 
-| Case | Function | Typical Marker |
-| --- | --- | --- |
-| Nominative | Dictionary form | None |
-| Dative | Recipient / goal | ला / ला-like forms |
-| Instrumental | Means / agent | ने |
-| Locative | Location | त |
-| Genitive | Possession | चा / ची / चे |
-| Ablative | Source / separation | हून |
+---
 
-## Add/Delete Table
-The FST uses class-based morphotactics.
+## ✨ Key Features
 
-### 1. Consonant-final nouns
-Examples: घर, गाव, शहर, पुस्तक, भारत
+✔ Morphological **generation** (lemma → inflected form)
+✔ Morphological **analysis** (word → lemma + case)
+✔ Support for **multiple POS tags**
+✔ **Add/Delete Table-based FST implementation**
+✔ Handles **regular + irregular nouns**
+✔ CLI-based interactive system
+✔ GUI support (Tkinter)
 
-| Case | Delete | Add | Example |
-| --- | --- | --- | --- |
-| Nominative | Ø | Ø | घर |
-| Dative | Ø | ाला | घराला |
-| Instrumental | Ø | ाने | घराने |
-| Locative | Ø | ात | घरात |
-| Genitive | Ø | ाचा / ाची | घराचा |
-| Ablative | Ø | ाहून | घराहून |
+---
 
-### 2. A-class nouns
-Examples: शाळा
+## 🧠 Abstract
 
-| Case | Delete | Add | Example |
-| --- | --- | --- | --- |
-| Nominative | Ø | Ø | शाळा |
-| Dative | ा | ेला | शाळेला |
-| Instrumental | ा | ेने | शाळेने |
-| Locative | ा | ेत | शाळेत |
-| Genitive | ा | ेचा / ेची | शाळेची |
-| Ablative | ा | ेहून | शाळेहून |
+This project presents a compact yet effective **Finite State Transducer model** for Marathi morphology. It focuses on **noun case inflection**, while also supporting **pronouns and adjectives**.
 
-### 3. Irregular nouns
-Examples: मुलगा, मुलगी, विद्यार्थी
+The system uses:
 
-These forms are handled using lexical overrides because Marathi contains lexically irregular noun patterns that do not follow a single productive suffix rule.
+* A **lexicon**
+* A **rule-based morphotactic model**
+* A **deterministic mapping system**
 
-| Lemma | Dative | Instrumental | Locative | Genitive | Ablative |
-| --- | --- | --- | --- | --- | --- |
-| मुलगा | मुलाला | मुलाने | मुलात | मुलाचा | मुलाहून |
-| मुलगी | मुलीला | मुलीने | मुलीत | मुलीची | मुलीहून |
-| विद्यार्थी | विद्यार्थ्याला | विद्यार्थ्याने | विद्यार्थ्यात | विद्यार्थ्याचा | विद्यार्थ्याहून |
+This makes it ideal for:
 
-## Algorithm Notes
-The transducer is implemented as a deterministic rule system:
+* NLP lab assignments
+* Academic demonstrations
+* Morphological analysis research
 
-1. Read the noun lemma from the lexicon.
-2. Identify the noun class:
-   - `CONSONANT`
-   - `A_CLASS`
-   - `IRREGULAR`
-3. Select the case rule from the add/delete table.
-4. Apply the rule to produce the surface form.
-5. For analysis, compare the given surface form against the generated forms and return the matching lemma + case.
+---
 
-### Why this is FST-style
-- The model maps lexical input to surface output.
-- The mapping is state-like and deterministic.
-- The rule set is explicit and finite.
-- Exceptions are handled separately with lexical overrides, which is standard in practical morphology systems.
+## 📚 Supported POS Tags
 
-## Input and Output Behavior
-### Generation
-Input:
-- lemma: घर
-- case: DATIVE
+* 🟢 NOUN (Primary)
+* 🔵 PRONOUN
+* 🟣 ADJECTIVE
 
-Output:
-- घर + DATIVE -> घराला
+---
 
-### Analysis
-Input:
-- surface form: शाळेत
+## 🔷 Marathi Morphological Cases
 
-Output:
-- शाळेत -> Lemma: शाळा, POS: NOUN, Case: LOCATIVE
+| Case               | Function   | Example   |
+| ------------------ | ---------- | --------- |
+| Nominative (कर्ता) | Subject    | गाव       |
+| Accusative (कर्म)  | Object     | गावाला    |
+| Instrumental (करण) | By/With    | गावाने    |
+| Dative (सम्प्रदान) | To/For     | गावाला    |
+| Ablative (अपादान)  | From       | गावापासून |
+| Genitive (सम्बंध)  | Possession | गावाचा    |
+| Locative (अधिकरण)  | In/At      | गावात     |
+| Vocative (संबोधन)  | Addressing | अरे गाव   |
 
-## Sample Outputs
-Example demo results from the script:
+---
 
-```text
-घर [NOUN] + DATIVE -> घराला
-गाव [NOUN] + GENITIVE -> गावाचा
-मी [PRONOUN] + DATIVE -> मला
-चांगला [ADJECTIVE] + NOMINATIVE -> चांगला
-```
+## ⚙️ Add/Delete Table (Core FST Logic)
 
-Example analysis results:
+### 🔹 Consonant-final nouns
+
+Examples: घर, गाव, शहर
+
+| Case         | Delete | Add  | Example |
+| ------------ | ------ | ---- | ------- |
+| Dative       | Ø      | ाला  | घराला   |
+| Instrumental | Ø      | ाने  | घराने   |
+| Locative     | Ø      | ात   | घरात    |
+| Genitive     | Ø      | ाचा  | घराचा   |
+| Ablative     | Ø      | ाहून | घराहून  |
+
+---
+
+### 🔹 A-class nouns
+
+Example: शाळा
+
+| Case         | Delete | Add | Example |
+| ------------ | ------ | --- | ------- |
+| Dative       | ा      | ेला | शाळेला  |
+| Instrumental | ा      | ेने | शाळेने  |
+| Locative     | ा      | ेत  | शाळेत   |
+| Genitive     | ा      | ेची | शाळेची  |
+
+---
+
+### 🔹 Irregular nouns
+
+Handled via **lexical overrides**
+
+| Lemma      | Dative         | Instrumental   | Genitive       |
+| ---------- | -------------- | -------------- | -------------- |
+| मुलगा      | मुलाला         | मुलाने         | मुलाचा         |
+| मुलगी      | मुलीला         | मुलीने         | मुलीची         |
+| विद्यार्थी | विद्यार्थ्याला | विद्यार्थ्याने | विद्यार्थ्याचा |
+
+---
+
+## ⚙️ Algorithm (FST Workflow)
 
 ```text
-घराला -> Lemma: घर, POS: NOUN, Case: DATIVE
-मला -> Lemma: मी, POS: PRONOUN, Case: DATIVE
-चांगला -> Lemma: चांगला, POS: ADJECTIVE, Case: NOMINATIVE
+1. Input lemma
+2. Identify noun class
+3. Select case rule
+4. Apply Add/Delete operation
+5. Output inflected form
 ```
 
-## How to Run
-Run the program with Python:
+### Reverse Analysis:
+
+```text
+1. Input word
+2. Match suffix patterns
+3. Extract root
+4. Return lemma + case
+```
+
+---
+
+## 🔁 Input / Output Examples
+
+### ▶ Generation
+
+```text
+Input:
+lemma = गाव
+case = GENITIVE
+
+Output:
+गाव + GENITIVE → गावाचा
+```
+
+---
+
+### ▶ Analysis
+
+```text
+Input:
+शाळेत
+
+Output:
+Lemma: शाळा
+POS: NOUN
+Case: LOCATIVE
+```
+
+---
+
+## 🧪 Sample Outputs
+
+```text
+घर [NOUN] + DATIVE → घराला
+गाव [NOUN] + GENITIVE → गावाचा
+मी [PRONOUN] + DATIVE → मला
+चांगला [ADJECTIVE] + NOMINATIVE → चांगला
+```
+
+---
+
+## 🖥️ How to Run
 
 ```bash
 python marathi_fst_system.py
 ```
 
-Then choose one of the menu options to:
-- study the Marathi noun cases,
-- show the add/delete table,
-- generate noun forms,
-- analyze noun forms,
-- view the lexicon,
-- run the sample demo.
+### Menu Options:
 
-## Class Structure
-The project uses a small class-based design:
+* Generate word
+* Analyze word
+* Show vocabulary
+* View case rules
+* Run demo
 
-| Class | Responsibility |
-| --- | --- |
-| `MarathiNounFST` | Core finite state transducer logic for generation, analysis, lexicon lookup, and table display |
-| `UserInterface` | CLI wrapper for menu-driven interaction with the FST engine |
+---
 
-The main engine stores the lexicon, case rules, and surface-form mappings. The user interface class keeps interaction separate from the morphology logic, which makes the project easier to test and present.
+## 🏗️ Project Structure
 
-## File Format
-The code follows a consistent Python project format:
+```
+📁 Project
+│── marathi_fst_system.py   # Core FST engine + CLI
+│── marathi_fst_gui.py      # GUI interface (Tkinter)
+│── README.md               # Documentation
+```
 
-1. File header at the top of each Python file.
-2. Module docstring describing the purpose of the file.
-3. Class headers for major classes.
-4. Function/method docstrings for important behavior.
-5. PEP 8-aligned naming and indentation.
+---
 
-Current project files:
+## 🧩 System Architecture
 
-- [marathi_fst_system.py](marathi_fst_system.py) - Core FST engine and CLI menu
-- [marathi_fst_gui.py](marathi_fst_gui.py) - Tkinter GUI for the same engine
-- [README.md](README.md) - Project report and documentation
+```
+Lexicon → FST Rules → Add/Delete Table → Output
+```
 
-## File Structure
-- [marathi_fst_system.py](marathi_fst_system.py) - Main FST implementation and CLI menu
-- [README.md](README.md) - Project documentation
+---
 
-## Submission Notes
-This package is now suitable for submission as a compact Marathi morphology FST demo focused on noun case inflection. The README gives the linguistic background, rule table, algorithm summary, and sample outputs needed for presentation or review.
+## 🧠 Why This is FST?
 
-## References
-1. IIIT-H Virtual Labs, Natural Language Processing. Available at: [https://nlp-iiith.vlabs.ac.in/](https://nlp-iiith.vlabs.ac.in/)
-2. IIIT-H Virtual Labs reference material on add/delete table based finite state transducers.
-3. Marathi morphology lecture and lab notes used for noun case modeling and transducer design.
+✔ Finite rule system
+✔ Deterministic transitions
+✔ Input → Output mapping
+✔ State-like behavior
 
-## Conclusion
-This project demonstrates that Marathi noun case morphology can be modeled cleanly with a finite state transducer style approach. The add/delete table makes the morphology easy to explain, the lexicon keeps the system deterministic, and lexical overrides provide a practical way to handle irregular forms. The result is a compact, submission-ready NLP artifact that is easy to demonstrate and extend.
+---
+
+## 🎯 Applications
+
+* NLP preprocessing
+* Morphological analyzers
+* Machine Translation
+* Information Retrieval
+* Language learning tools
+
+---
+
+## 📊 Scope
+
+This is a **compact educational model**, not a full industrial morphological analyzer.
+
+✔ Covers major case inflections
+❌ Does not cover full grammar complexity
+
+---
+
+## 📌 References
+
+*  (Project Base Document)
+* IIIT-H NLP Virtual Labs
+* Marathi Morphology Research Papers
+
+---
+
+## 🎓 Conclusion
+
+This project proves that **Marathi morphology can be effectively modeled using FST principles**.
+
+The combination of:
+
+* Add/Delete rules
+* Lexicon-based control
+* Deterministic transitions
+
+makes it:
+✔ Simple
+✔ Explainable
+✔ Extendable
+
+---
+
+## 👨‍💻 Author
+
+**Pradhumnya Changdev Kalsait**
+Computer Engineering (BE)
+NLP | AI Enthusiast
+
+---
+
+## ⭐ Future Enhancements
+
+* 🔹 Plural handling
+* 🔹 Gender agreement
+* 🔹 Deep learning hybrid model
+* 🔹 Web-based UI
+* 🔹 Large-scale corpus integration
+
+---
+
+✨ *If you found this project useful, consider starring the repository!*
